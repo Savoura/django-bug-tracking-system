@@ -24,10 +24,9 @@ class report(models.Model):
 
     state = models.CharField(max_length=20, choices=states, default="open")
     date_added = models.DateField()
-    reported_by = models.ForeignKey(User, related_name="submitter", on_delete=models.SET_NULL, null=True, blank=True)
-    assigned_to = models.ManyToManyField(User, related_name="assign")
-    belongs_to = models.ForeignKey(project, on_delete=models.SET_NULL, null=True, blank=True)
-
+    reported_by = models.ForeignKey(User, related_name="submitter", on_delete=models.SET_NULL, null=True)
+    assigned_to = models.ManyToManyField(User ,related_name="assign")
+    belongs_to = models.ForeignKey(project, on_delete=models.CASCADE , null=True, blank=True)
     def to_json(self):
         return_value = {
             'id':self.id,
@@ -47,3 +46,22 @@ class report(models.Model):
             return_value["attachment"]=""
         return return_value    
         
+
+class comment(models.Model):
+    date = models.DateTimeField(auto_now_add = True)
+    commented_by = models.ForeignKey(User , on_delete=models.CASCADE)
+    content = models.TextField()
+    report = models.ForeignKey(report , on_delete = models.CASCADE  , null = True)
+    
+    
+
+    def to_json(self):
+        
+        return_value = {'date':self.date.strftime("%m/%d/%Y, %H:%M:%S"),
+        'commented_by':self.commented_by.username,
+        'content':self.content,
+        'report':self.report.title,
+        'id':self.id
+        } 
+          
+        return return_value
