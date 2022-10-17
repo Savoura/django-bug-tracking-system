@@ -69,3 +69,24 @@ label
 {
 	cursor: pointer;
 }
+
+#restrict_deletion ,#restrict_closing
+{
+	display: none;
+}
+
+.input_group
+{
+	padding: 10px 0;
+}
+.input_label
+{
+	color: grey;
+	padding: 10px 0;
+}
+
+select , textarea
+{
+	resize : none !important;
+	border-radius: 0% !important;
+}
